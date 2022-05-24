@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ShopLocalTo</string>
+    <string name="facebook_app_id">701144977583841</string>
+    <string name="fb_login_protocol_scheme">fb701144977583841</string>
+    <string name="facebook_client_token">940f5a1ffe70e7a546600550d13d0e96</string>
+</resources>

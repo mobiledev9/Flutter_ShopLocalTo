@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+     <item android:drawable="@drawable/toronto1"
+    android:screenOrientation="portrait"
+     />
+    <VideoView
+        android:id="@+id/background"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <!-- <item>
+        <shape>
+            <gradient android:angle="90" android:startColor="#015695" android:endColor="#015695" android:type="linear">
+        </shape>
+    </item> -->
+    <item android:drawable = "@drawable/shop" 
+        android:screenOrientation="portrait"
+        android:scaleType="center"
+        android:gravity="center"
+        android:height="150dp"
+        android:width="300dp" />
+    
+</layer-list>
+  

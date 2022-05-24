@@ -1,0 +1,70 @@
+{
+  "project_info": {
+    "project_number": "920821932197",
+    "project_id": "shoplocalto-f789e",
+    "storage_bucket": "shoplocalto-f789e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920821932197:android:e82a1bd307f1e4f4dced4c",
+        "android_client_info": {
+          "package_name": "com.indigitalgroup.shoplocalto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "920821932197-iqqb443kp1bf7krs3m7mjbcl8l4cjst4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.indigitalgroup.shoplocalto",
+            "certificate_hash": "1f4627f2798d0c0047127d5447db741c920ce66e"
+          }
+        },
+        {
+          "client_id": "920821932197-ksuuu9lqgvfbcuvvhfvgg7ir4agt349p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.indigitalgroup.shoplocalto",
+            "certificate_hash": "dc53840ab700e1a26b115a5ae90e8be1cef52f85"
+          }
+        },
+        {
+          "client_id": "920821932197-u0kvcb8vr7t00v2da6kjki62svtjcaid.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.indigitalgroup.shoplocalto",
+            "certificate_hash": "9f538c32147369b9b92516916bf69c833bf49936"
+          }
+        },
+        {
+          "client_id": "920821932197-lspg1n67g6r205d9jbcpusqftffod3bk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCS5nEp4BEYN_9JEKneb6dWLitsCookpCw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "920821932197-lspg1n67g6r205d9jbcpusqftffod3bk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "920821932197-9m68vlkat7093fudmvd6c9pah3p8oadh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.indigitalgroup.shoplocalnewpackageslt"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

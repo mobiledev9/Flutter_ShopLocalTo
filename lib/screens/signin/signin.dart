@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 // import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shoplocalto/blocs/socialglLogin/socialglLogin_state.dart';
@@ -646,7 +645,7 @@ class _SignInState extends State<SignIn> {
                           text: 'Sign in with Facebook',
                           image: Image.asset('assets/socialicons/facebook.png'),
                           onPressed: () async {
-                            _loginwithFacebooksat16apr();
+                            // _loginwithFacebooksat16apr();
                             // _login();
                             // AuthBlocFacebook fb;
                             // fb = AuthBlocFacebook();
@@ -1218,7 +1217,7 @@ class _SignInState extends State<SignIn> {
                 Radius.circular(8),
               ),
             ),
-            child: Text('Api error Unable to login$message',
+            child: Text('Api error Unable to login $message',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.subtitle1),
 
@@ -1241,60 +1240,60 @@ class _SignInState extends State<SignIn> {
         ]).show();
   }
 
-  void _loginwithFacebooksat16apr() async {
-    try {
-      final facebookLoginResult = await FacebookAuth.instance
-          .login(loginBehavior: LoginBehavior.dialogOnly);
-
-      final userData = await FacebookAuth.instance.getUserData(fields: "email,birthday,friends,gender,link");
-      final facebookAuthCredential = FacebookAuthProvider.credential(
-          facebookLoginResult.accessToken.token);
-      await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-      await FirebaseFirestore.instance.collection('user').add({
-        'email': userData['email'],
-        'imageUrl': userData['picture']['data']['url'],
-        'name': userData['name'],
-      });
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => MainNavigation()),
-          (route) => false);
-      // Navigator.push(
-      //     context,
-      //    );
-
-    } on FirebaseAuthException catch (e) {
-      var content = '';
-      switch (e.code) {
-        case 'account-exists-with-different-credential':
-          content = 'This account exists with a different sign in provider';
-          break;
-        case 'invalid-credential':
-          content = 'Unknown error has occurred';
-          break;
-        case 'operation-not-allowed':
-          content = 'This operation is not allowed';
-          break;
-        case 'user-disabled':
-          content = 'This user you tried to log into is disabled';
-          break;
-        case 'user-not-found':
-          content = 'This user you tried to log into was not found';
-          break;
-      }
-
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                title: Text('Log in with facebook failed'),
-                content: Text(content),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('Ok'))
-                ],
-              ));
-    } finally {}
-  }
+  // void _loginwithFacebooksat16apr() async {
+  //   try {
+  //     final facebookLoginResult = await FacebookAuth.instance
+  //         .login(loginBehavior: LoginBehavior.dialogOnly);
+  //
+  //     final userData = await FacebookAuth.instance.getUserData(fields: "email,birthday,friends,gender,link");
+  //     final facebookAuthCredential = FacebookAuthProvider.credential(
+  //         facebookLoginResult.accessToken.token);
+  //     await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  //     await FirebaseFirestore.instance.collection('user').add({
+  //       'email': userData['email'],
+  //       'imageUrl': userData['picture']['data']['url'],
+  //       'name': userData['name'],
+  //     });
+  //     Navigator.of(context).pushAndRemoveUntil(
+  //         MaterialPageRoute(builder: (_) => MainNavigation()),
+  //         (route) => false);
+  //     // Navigator.push(
+  //     //     context,
+  //     //    );
+  //
+  //   } on FirebaseAuthException catch (e) {
+  //     var content = '';
+  //     switch (e.code) {
+  //       case 'account-exists-with-different-credential':
+  //         content = 'This account exists with a different sign in provider';
+  //         break;
+  //       case 'invalid-credential':
+  //         content = 'Unknown error has occurred';
+  //         break;
+  //       case 'operation-not-allowed':
+  //         content = 'This operation is not allowed';
+  //         break;
+  //       case 'user-disabled':
+  //         content = 'This user you tried to log into is disabled';
+  //         break;
+  //       case 'user-not-found':
+  //         content = 'This user you tried to log into was not found';
+  //         break;
+  //     }
+  //
+  //     showDialog(
+  //         context: context,
+  //         builder: (context) => AlertDialog(
+  //               title: Text('Log in with facebook failed'),
+  //               content: Text(content),
+  //               actions: [
+  //                 TextButton(
+  //                     onPressed: () {
+  //                       Navigator.pop(context);
+  //                     },
+  //                     child: Text('Ok'))
+  //               ],
+  //             ));
+  //   } finally {}
+  // }
 }

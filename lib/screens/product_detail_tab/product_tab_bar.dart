@@ -145,7 +145,7 @@ class ProductTabBar extends SliverPersistentHeaderDelegate {
       child: Container(
         color: Theme.of(context).scaffoldBackgroundColor,
         child: ListView.builder(
-          controller: tabController,
+          controller: tabController,  itemCount: tab.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             final item = tab[index];
@@ -203,7 +203,7 @@ class ProductTabBar extends SliverPersistentHeaderDelegate {
                   ),
             );
           },
-          itemCount: tab.length,
+
         ),
       ),
     );

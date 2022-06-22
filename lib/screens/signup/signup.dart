@@ -47,6 +47,7 @@ class _SignUpState extends State<SignUp> {
   List<MyLocation> _locations = [];
   String locationname;
   int locationid;
+  String locationidtext;
   FlutterSecureStorage flutterSecureStorage = FlutterSecureStorage();
 
   SignUpBloc _signUpBloc;
@@ -325,6 +326,7 @@ class _SignUpState extends State<SignUp> {
                   icon: Icon(Icons.clear),
                   controller: _textPhoneController,
                   focusNode: _focusPhone,
+                  keyboardType: TextInputType.number,
                   textInputAction: TextInputAction.next,
                   // onChanged: (text) {
                   //   setState(() {
@@ -390,6 +392,7 @@ class _SignUpState extends State<SignUp> {
                             fillColor: Theme.of(context).highlightColor,
                             hintText: Translate.of(context)
                                 .translate('Select Location'),
+
                             suffixIcon: PopupMenuButton<String>(
                               enabled: true,
                               icon: const Icon(
@@ -397,7 +400,11 @@ class _SignUpState extends State<SignUp> {
                                 color: Colors.grey,
                               ),
                               onSelected: (String value) {
-                                _textLocationController.text = value;
+
+                                  _textLocationController.text = value.split(',')[1];
+                                  print('value $value is ${_textLocationController.text}');
+                                  locationidtext = value.split(',')[0];
+
                               },
                               itemBuilder: (BuildContext context) {
                                 return _locations.map<PopupMenuItem<String>>(
@@ -409,8 +416,8 @@ class _SignUpState extends State<SignUp> {
                                     flutterSecureStorage.write(key: 'locationid', value: locationid.toString());
                                   });
                                   return new PopupMenuItem(
-                                    child: new Text(value.name),
-                                    value: value.name,
+                                    child: new Text(value.name.toString()),
+                                    value: value.id.toString() + "," + value.name,
                                   );
                                 }).toList();
                               },
@@ -471,14 +478,14 @@ class _SignUpState extends State<SignUp> {
                               OnSignUp(
                                 email: _textEmailController.text,
                                 password: _textPassController.text,
-                                location: _textLocationController.text,
+                                location: locationidtext,
                                 phone: _textPhoneController.text,
                                 username: _textIDController.text,
                               ),
                             );
                             print('email:${_textEmailController.text}');
                             print('password:${_textPassController.text}');
-                             print('location:${_textLocationController.text}');
+                             print('location:${locationidtext}');
                             print('password:${_textPhoneController.text}');
                              print('username:${_textIDController.text}');
                             

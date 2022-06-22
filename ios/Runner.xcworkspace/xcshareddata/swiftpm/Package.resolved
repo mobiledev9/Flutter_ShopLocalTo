@@ -3,7 +3,7 @@
     "pins": [
       {
         "package": "Facebook",
-        "repositoryURL": "https://github.com/facebook/facebook-ios-sdk",
+        "repositoryURL": "https://github.com/facebook/facebook-ios-sdk.git",
         "state": {
           "branch": null,
           "revision": "c3d367656ae8ced1149c2c6a5e6b5dd91ecad63c",

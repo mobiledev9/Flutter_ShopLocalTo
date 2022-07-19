@@ -64,11 +64,11 @@ print('update success');
           yield SignUpSuccess();
         } catch (error) {
           ///Notify loading to UI
-          yield SignUpFail(error.toString());
+          yield SignUpFail(result['message']);
         }
       } else {
         ///Notify loading to UI
-        yield SignUpFail('update failed');
+        yield SignUpFail(result['message']);
       }
     }
 

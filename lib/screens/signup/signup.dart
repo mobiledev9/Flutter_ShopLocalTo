@@ -1,18 +1,23 @@
-
-
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shoplocalto/api/api.dart';
+import 'package:shoplocalto/configs/image.dart';
+import 'package:shoplocalto/screens/forgot_password/forgotpass_verificationcode.dart';
+import 'package:shoplocalto/utils/utils.dart';
+import 'package:shoplocalto/widgets/widget.dart';
+import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shoplocalto/api/api.dart';
 import 'package:shoplocalto/configs/image.dart';
 import 'package:shoplocalto/utils/utils.dart';
 import 'package:shoplocalto/widgets/widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shoplocalto/blocs/signUp/bloc.dart';
-import 'package:shoplocalto/models/model.dart';
-import 'package:shoplocalto/api/api.dart';
 import 'package:shoplocalto/screens/signin/signin.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shoplocalto/configs/config.dart';
+
+import '../../models/model_mylocation.dart';
 
 class SignUp extends StatefulWidget {
   SignUp({Key key}) : super(key: key);
@@ -49,7 +54,6 @@ class _SignUpState extends State<SignUp> {
   int locationid;
   String locationidtext;
   FlutterSecureStorage flutterSecureStorage = FlutterSecureStorage();
-
   SignUpBloc _signUpBloc;
   var items = [
     'Working a lot harder',
@@ -59,11 +63,8 @@ class _SignUpState extends State<SignUp> {
   ];
   void initState() {
     _signUpBloc = BlocProvider.of<SignUpBloc>(context);
-    _textIDController.text;
     _textPassController.text;
-    _textEmailController.text;
-    _textPhoneController.text;
-    _textLocationController.text;
+    _textIDController.text;
     _loadPopular();
     super.initState();
   }
@@ -75,7 +76,8 @@ class _SignUpState extends State<SignUp> {
     });
   }
 
-  Future<void> _showMessage() {
+  Future<void> _showMessage(String msg) {
+    print('log msg: $msg');
   return Alert(
                   context: context,
                   title: "Sorry!",
@@ -92,7 +94,7 @@ class _SignUpState extends State<SignUp> {
                             Radius.circular(8),
                           ),
                         ),
-                        child:  Text('SomeThing Went Wrong! Try Again',
+                        child:  Text(msg.toString(),
                     style: Theme.of(context).textTheme.bodyText1),
 
                         // previous search by sanjana search.txt
@@ -155,60 +157,71 @@ class _SignUpState extends State<SignUp> {
   }
 
   ///On sign up
-  // void _signUp() {
-  //   setState(
-  //     () {
-  //       _validID = UtilValidator.validate(
-  //         data: _textIDController.text,
-  //       );
-  //       _validPass = UtilValidator.validate(
-  //         data: _textPassController.text,
-  //       );
-  //       _validEmail = UtilValidator.validate(
-  //         data: _textEmailController.text,
-  //         // type: Type.email,
-  //       );
-  //       _validPhone = UtilValidator.validate(
-  //         data: _textPhoneController.text,
-  //         // type: Type.phone
-  //       );
-  //       _validLocation = UtilValidator.validate(
-  //         data: _textLocationController.text,
-  //         // type: Type.location
-  //       );
-  //       _signUpBloc.add(OnSignUp(
-  //         email: _validEmail,
-  //         password: _validPass,
-  //         phone: _validPhone,
-  //         location: _validLocation,
-  //       ));
-  //       print(_validEmail);
-  //       // needed to navigate to signin page
-  //       // Navigator.push(
-  //       //   context,
-  //       //   MaterialPageRoute(builder: (context) => SignIn()),
-  //       // );
-  //     },
-  //   );
+  void _signUp() {
+    setState(
+      () {
 
-  //   if (_validID == null &&
-  //       _validPass == null &&
-  //       _validEmail == null &&
-  //       _validPhone == null &&
-  //       _validLocation == null) {
-  //     _signUpBloc.add(OnSignUp(
-  //       email: _textEmailController.text,
-  //       password: _textPassController.text,
-  //       phone: _textPhoneController.text,
-  //       location: _textLocationController.text,
-  //     ));
-  //     print('The value of the input is: $_textEmailController.text');
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => SignIn()),
-  //     );
-  //   }
-  // }
+          _validID = UtilValidator.validate(
+            data: _textIDController.text,
+            type: Type.normal,
+              allowEmpty: false
+          );
+
+
+        _validPass = UtilValidator.validate(
+          data: _textPassController.text,
+            type: Type.password,
+            allowEmpty: false
+        );
+
+        _validEmail = UtilValidator.validate(
+          data: _textEmailController.text,
+          type: Type.email,
+            allowEmpty: false
+        );
+        _validPhone = UtilValidator.validate(
+          data: _textPhoneController.text,
+          type: Type.phone,
+            allowEmpty: false
+        );
+        _validLocation = UtilValidator.validate(
+          data: _textLocationController.text,
+          type: Type.location,
+            allowEmpty: false
+        );
+        if(locationidtext == null){
+          final SnackBar snackBar = SnackBar(
+            content: Text(
+              Translate.of(context).translate('location') + ' '+ Translate.of(context).translate('value_not_empty'),
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.redAccent,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+          print('The value of the input is1: ${_textEmailController.text}');
+        if (_textEmailController.text.isNotEmpty &&
+            _textPassController.text.isNotEmpty &&
+            locationidtext.isNotEmpty &&
+            _textPhoneController.text.isNotEmpty &&
+            _textIDController.text.isNotEmpty  ) {
+          _signUpBloc.add(OnSignUp(
+            email: _textEmailController.text,
+            password: _textPassController.text,
+            location: locationidtext,
+            phone: _textPhoneController.text,
+            username: _textIDController.text,
+          )
+          );
+          print('The value of the input is: ${_textEmailController.text}');
+
+        }
+      },
+    );
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -240,17 +253,18 @@ class _SignUpState extends State<SignUp> {
                   controller: _textIDController,
                   focusNode: _focusID,
                   textInputAction: TextInputAction.next,
-                  // onChanged: (text) {
-                  //   setState(() {
-                  //     _validLocation = UtilValidator.validate(
-                  //       data: _textLocationController.text,
-                  //     );
-                  //   });
-                  // },
-                  // onSubmitted: (text) {
-                  //   UtilOther.fieldFocusChange(
-                  //       context, _focusLocation, _focusLocation);
-                  // },
+                  onChanged: (text) {
+                    setState(() {
+                      _validID = UtilValidator.validate(
+                        data: _textIDController.text,
+
+                      );
+                    });
+                  },
+                  onSubmitted: (text) {
+                    UtilOther.fieldFocusChange(
+                        context, _focusID, _focusEmail);
+                  },
                   onTapIcon: () async {
                     await Future.delayed(Duration(milliseconds: 100));
                     _textIDController.clear();
@@ -267,20 +281,22 @@ class _SignUpState extends State<SignUp> {
                     await Future.delayed(Duration(milliseconds: 100));
                     _textEmailController.clear();
                   },
-                  // onSubmitted: (text) {
-                  //   _signUp();
-                  // },
-                  // onChanged: (text) {
-                  //   setState(() {
-                  //     _validEmail = UtilValidator.validate(
-                  //       data: _textEmailController.text,
-                  //       type: Type.email,
-                  //     );
-                  //   });
-                  // },
+                  onSubmitted: (text) {
+                    UtilOther.fieldFocusChange(
+                        context, _focusEmail, _focusPass);
+                  },
+                  onChanged: (text) {
+                    setState(() {
+                      _validEmail = UtilValidator.validate(
+                        data: _textEmailController.text,
+                        type: Type.email,
+                      );
+                    });
+                  },
                   icon: Icon(Icons.clear),
                   controller: _textEmailController,
                   keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
                 ),
                 SizedBox(
                   height: 10,
@@ -293,16 +309,18 @@ class _SignUpState extends State<SignUp> {
                       ? Translate.of(context).translate(_validPass)
                       : null,
                   textInputAction: TextInputAction.next,
-                  // onChanged: (text) {
-                  //   setState(() {
-                  //     _validPass = UtilValidator.validate(
-                  //       data: _textPassController.text,
-                  //     );
-                  //   });
-                  // },
-                  // onSubmitted: (text) {
-                  //   _signUp();
-                  // },
+                  onChanged: (text) {
+                    setState(() {
+                      _validPass = UtilValidator.validate(
+                        data: _textPassController.text,
+                      );
+                    });
+                  },
+                  onSubmitted: (text) {
+                    UtilOther.fieldFocusChange(
+                        context, _focusID, _focusPhone);
+
+                  },
                   onTapIcon: () {
                     setState(() {
                       _showPassword = !_showPassword;
@@ -328,17 +346,17 @@ class _SignUpState extends State<SignUp> {
                   focusNode: _focusPhone,
                   keyboardType: TextInputType.number,
                   textInputAction: TextInputAction.next,
-                  // onChanged: (text) {
-                  //   setState(() {
-                  //     _validPhone = UtilValidator.validate(
-                  //       data: _textPhoneController.text,
-                  //     );
-                  //   });
-                  // },
-                  // onSubmitted: (text) {
-                  //   UtilOther.fieldFocusChange(
-                  //       context, _focusPhone, _focusPhone);
-                  // },
+                  onChanged: (text) {
+                    setState(() {
+                      _validPhone = UtilValidator.validate(
+                        data: _textPhoneController.text,
+                      );
+                    });
+                  },
+                  onSubmitted: (text) {
+                    UtilOther.fieldFocusChange(
+                        context, _focusPhone, _focusLocation);
+                  },
                   onTapIcon: () async {
                     await Future.delayed(Duration(milliseconds: 100));
                     _textPhoneController.clear();
@@ -460,11 +478,16 @@ class _SignUpState extends State<SignUp> {
                       listener: (context, loginListener) {
 
                         if (loginListener is SignUpFail) {
-                          _showMessage();
+                          _showMessage(loginListener.message);
 
                         }
                         if (loginListener is SignUpSuccess) {
+
                           _showSuccess();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SignIn()),
+                          );
                           print('dknfdcvkfnvc');
                           // Navigator.of(context).pop();
                         }
@@ -473,21 +496,21 @@ class _SignUpState extends State<SignUp> {
                         
                         onPressed: () {
                           setState(() {
-                            
-                            _signUpBloc.add(
-                              OnSignUp(
-                                email: _textEmailController.text,
-                                password: _textPassController.text,
-                                location: locationidtext,
-                                phone: _textPhoneController.text,
-                                username: _textIDController.text,
-                              ),
-                            );
-                            print('email:${_textEmailController.text}');
-                            print('password:${_textPassController.text}');
-                             print('location:${locationidtext}');
-                            print('password:${_textPhoneController.text}');
-                             print('username:${_textIDController.text}');
+                            _signUp();
+                            // _signUpBloc.add(
+                            //   OnSignUp(
+                            //     email: _textEmailController.text,
+                            //     password: _textPassController.text,
+                            //     location: locationidtext,
+                            //     phone: _textPhoneController.text,
+                            //     username: _textIDController.text,
+                            //   ),
+                            // );
+                            // print('email:${_textEmailController.text}');
+                            // print('password:${_textPassController.text}');
+                            //  print('location:${locationidtext}');
+                            // print('password:${_textPhoneController.text}');
+                            //  print('username:${_textIDController.text}');
                             
                           });
                         },

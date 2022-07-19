@@ -11,7 +11,8 @@ class ResetFail extends ResetState {
 }
 
 class ResetSuccess extends ResetState {
-
+  final String message;
+  ResetSuccess(this.message);
 }
 
 class AfterResetLoading extends ResetState {}

@@ -225,7 +225,7 @@ class _SearchHistoryState extends State<SearchHistory> {
                                       MediaQuery.of(context).size.width * 0.85,
                                   decoration: BoxDecoration(
                                     // color: Theme.of(context).hoverColor,
-                                    color: Colors.grey[800],
+                                    color: Colors.grey[500],
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(8),
                                     ),
@@ -235,7 +235,8 @@ class _SearchHistoryState extends State<SearchHistory> {
                                         TextFieldConfiguration(
                                       autofocus: false,
                                       onTap: () {},
-                                      decoration: InputDecoration(
+
+                                          decoration: InputDecoration(
                                         suffixIcon: Icon(Icons.search),
                                         border: InputBorder.none,
                                         hintText:
@@ -258,7 +259,8 @@ class _SearchHistoryState extends State<SearchHistory> {
                                     },
                                     itemBuilder: (context, suggestion) {
                                       return ListTile(
-                                        title: Text(suggestion.title),
+                                        title: Text(suggestion.title,
+                                        ),
                                       );
                                     },
                                     onSuggestionSelected: (suggestion) {
@@ -359,7 +361,7 @@ class _SearchHistoryState extends State<SearchHistory> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => SearchResult(
-                                          id: id != null ? id : shopid,
+                                          id: id ,
                                           title: _textCatController.text != null
                                               ? _textCatController.text
                                               : _textController.text,

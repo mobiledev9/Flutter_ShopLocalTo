@@ -56,7 +56,7 @@ print('update success');
           authBloc.add(AuthenticationResetSave(user));
 
           ///Notify loading to UI
-          yield ResetSuccess();
+          yield ResetSuccess(result['message']);
         } catch (error) {
           ///Notify loading to UI
           yield ResetFail(error.toString());

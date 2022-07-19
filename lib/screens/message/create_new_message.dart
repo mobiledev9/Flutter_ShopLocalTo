@@ -264,7 +264,11 @@ class _CreateNewMessageState extends State<CreateNewMessage> {
           )),
     );
     // _textChatController.clear();
-
+//-> Worked on solving flutter module error.
+// -> Worked on solving error in FacebookAuth.swift.
+// -> Worked on solving error in FBSDKaccesstoken.h.
+// -> Working on bug fixing in sign up page.
+// -> Worked on solving Command PhaseScriptExecution error.
     // _textChatController.text = '';
     // UtilOther.hiddenKeyboard(context);
   }

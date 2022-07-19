@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/shoplocalnewpackage.iml" filepath="$PROJECT_DIR$/.idea/shoplocalnewpackage.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android/shoplocalnewpackage_android.iml" filepath="$PROJECT_DIR$/android/shoplocalnewpackage_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/fluttershoplocatto.iml" filepath="$PROJECT_DIR$/.idea/fluttershoplocatto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/fluttershoplocatto_android.iml" filepath="$PROJECT_DIR$/android/fluttershoplocatto_android.iml" />
     </modules>
   </component>
 </project>

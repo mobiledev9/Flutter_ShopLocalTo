@@ -33,6 +33,50 @@ class _ChangePasswordState extends State<ChangePassword> {
     super.initState();
   }
 
+  ///On Reset
+  void _reset() {
+    setState(
+          () {
+
+        _validPass = UtilValidator.validate(
+          data: _textPassController.text,
+        );
+        _validRePass = UtilValidator.validate(
+          data: _textRePassController.text,
+        );
+
+
+        if (
+            _textPassController.text.isNotEmpty &&
+            _textRePassController.text.isNotEmpty ) {
+          _resetBloc.add(
+            OnReset(
+              password: _textPassController.text,
+              confirmpassword: _textRePassController.text,
+            ),
+          );
+          print('The value of the input is: ${_textPassController.text}');
+
+        }
+        // _signUpBloc.add(OnSignUp(
+        //   username: _validID,
+        //   email: _validEmail,
+        //   password: _validPass,
+        //   phone: _validPhone,
+        //   location: _validLocation,
+        // ));
+        // print(_validEmail);
+        // needed to navigate to signin page
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => SignIn()),
+        // );
+      },
+    );
+
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -82,20 +126,20 @@ class _ChangePasswordState extends State<ChangePassword> {
                                         await Future.delayed(Duration(milliseconds: 100));
                                         _textPassController.clear();
                                     },
-                                    // onSubmitted: (text) {
-                                    //   UtilOther.fieldFocusChange(
-                                    //     context,
-                                    //     _focusPass,
-                                    //     _focusRePass,
-                                    //   );
-                                    // },
-                                    // onChanged: (text) {
-                                    //   setState(() {
-                                    //     _validPass = UtilValidator.validate(
-                                    //       data: _textPassController.text,
-                                    //     );
-                                    //   });
-                                    // },
+                                    onSubmitted: (text) {
+                                      UtilOther.fieldFocusChange(
+                                        context,
+                                        _focusPass,
+                                        _focusRePass,
+                                      );
+                                    },
+                                    onChanged: (text) {
+                                      setState(() {
+                                        _validPass = UtilValidator.validate(
+                                          data: _textPassController.text,
+                                        );
+                                      });
+                                    },
                                     icon: Icon(Icons.clear),
                                     controller: _textPassController,
                                   ),
@@ -124,16 +168,16 @@ class _ChangePasswordState extends State<ChangePassword> {
                                         await Future.delayed(Duration(milliseconds: 100));
                                         _textRePassController.clear();
                                     },
-                                    // onSubmitted: (text) {
-                                    //   _changePassword();
-                                    // },
-                                    // onChanged: (text) {
-                                    //   setState(() {
-                                    //     _validRePass = UtilValidator.validate(
-                                    //         data: _textRePassController.text);
-                                    //   });
+                                    onSubmitted: (text) {
+                                      // _reset();
+                                    },
+                                    onChanged: (text) {
+                                      setState(() {
+                                        _validRePass = UtilValidator.validate(
+                                            data: _textRePassController.text);
+                                      });
                                         
-                                    // },
+                                    },
                                     icon: Icon(Icons.clear),
                                     controller: _textRePassController,
                                   ),
@@ -145,29 +189,29 @@ class _ChangePasswordState extends State<ChangePassword> {
                                         return BlocListener<ResetBloc, ResetState>(
                                           listener: (context, loginListener) {
                                             if (loginListener is ResetFail) {
-                                              _showMessage();
+                                              _showMessage(loginListener.message);
                                             }
                                             if(loginListener is ResetSuccess){
+                                              _showMessage(loginListener.message);
+
+                                              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+                                                  builder: (_) => MainNavigation()),
+                                                      (route) => false
+                                              );
+
                               //                 Navigator.push(
                               // context,
                               // MaterialPageRoute(
                               //   builder: (context) => MainNavigation(),
                               // ));
-                                              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
-                                                  builder: (_) => MainNavigation()),
-                                                      (route) => false
-                                              );
+
                                             }
                                           },
                                           child: AppButton(
                                             onPressed: () {
                                               setState(() {
-                                                _resetBloc.add(
-                                                  OnReset(
-                                                    password: _textPassController.text,
-                                                    confirmpassword: _textRePassController.text,
-                                                  ),
-                                                );
+                                                _reset();
+
                                                 print('email:${_textRePassController.text}');
                                                 print('password:${_textPassController.text}');
                                               });
@@ -193,7 +237,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       ),
     );
   }
-  Future<void> _showMessage() async {
+  Future<void> _showMessage(String msg) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -203,7 +247,7 @@ class _ChangePasswordState extends State<ChangePassword> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Reset failed', style: Theme.of(context).textTheme.bodyText1),
+                Text(msg != null ? msg.toString():'Reset failed', style: Theme.of(context).textTheme.bodyText1),
               ],
             ),
           ),
@@ -211,6 +255,8 @@ class _ChangePasswordState extends State<ChangePassword> {
             FlatButton(
               child: Text('Close'),
               onPressed: () {
+                _textRePassController.clear();
+                _textPassController.clear();
                 Navigator.of(context).pop();
               },
             ),

@@ -59,7 +59,9 @@ class Api {
             '&location=' +
             location +
             '&password=' +
-            password);
+            password + "&phone=" + phone);
+    print('sign log=-=-=- $result');
+
     return result;
   }
 
@@ -527,7 +529,7 @@ class Api {
   }
 
   static Future<ProductListPageModel> getSearchResult(
-      {int id, String keyword}) async {
+      {String id, String keyword}) async {
     // await Future.delayed(Duration(seconds: 1));
     final result = await httpManager.post(
         url: 'http://dev.shoplocalto.ca/api/search-results?category_id=' +
